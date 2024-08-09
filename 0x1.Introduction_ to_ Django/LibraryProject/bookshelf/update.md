@@ -1,6 +1,6 @@
->>> book_update = Book.objects.get(title = "1984")
->>> book_update.title = "Nineteen Eighty-Four"
->>> book_update.save()
+>>> book = Book.objects.get(title = "1984")
+>>> book.title = "Nineteen Eighty-Four"
+>>> book.save()
 
 # Expected outcome 
 >>> print(retrieve_book)
