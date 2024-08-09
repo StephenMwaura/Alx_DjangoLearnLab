@@ -22,6 +22,7 @@ book1 = Book.objects.create(title = "1984", author = "George Orwell", publicatio
 
  
 ### from delete_md 
+>>> from bookshelf.models import Book
 >>> delete_book = Book.objects.get(title = "Nineteen
  Eighty-Four")
 >>> delete_book.delete()
