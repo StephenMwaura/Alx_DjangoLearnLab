@@ -1,13 +1,9 @@
 from .models import Author, Book, Library , Librarian
 
 def Query_all_books_by_a_specific_author(author_name):
- try:
-  
-   author = Author.objects.get(name=author_name)
-   books = Book.objects.filter(author=author)
-   return books
- except :
-   return f"Author does not exist"
+  author = Author.objects.get(name=author_name)
+  books = Book.objects.filter(author=author)
+  return books
 
 def List_all_books_in_a_library(library_name):
   library = Library.objects.get(name=library_name)
