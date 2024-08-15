@@ -10,7 +10,7 @@ def query_by_author(author_name):
    return f"Author does not exist"
 
 def List_all_books_in_a_library(library_name):
-  library = Library.objects.get(name = library_name)
+  library = Library.objects.get(name=library_name)
   books = library.books.all()
   return books
     
