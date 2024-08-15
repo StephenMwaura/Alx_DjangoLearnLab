@@ -1,6 +1,6 @@
 from .models import Author, Book, Library , Librarian
 
-def query_all_books_by_a_specific_author(author_name):
+def Query_all_books_by_a_specific_author(author_name):
  try:
   
    author = Author.objects.get(name = author_name)
