@@ -9,9 +9,9 @@ def query_by_author(author_name):
  except :
    return f"Author does not exist"
 
-def list_books():
-    library_books = Book.objects.all()
-    return library_books
+def list_books(library_name):
+  books = Library.objects.get(name = library_name) , books.all()
+    
 def librarian_for_library(library_name):
    lib = Library.objects.get(name= library_name)
    libra = Librarian.objects.get(library = lib)
