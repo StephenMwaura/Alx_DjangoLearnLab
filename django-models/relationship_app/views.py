@@ -8,7 +8,7 @@ def lists_all_books(request):
     return render(request ,'relationship_app/list_books.html', Book.objects.all() )
 class display(ListView):
     model = Library
-    template_name = 'library_detail.html', 'from .models import Library'
+    template_name = 'relationship_app/library_detail.html', 'from .models import Library'
 
 def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs) 
