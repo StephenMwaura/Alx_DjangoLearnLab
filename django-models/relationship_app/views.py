@@ -5,7 +5,7 @@ from django.views.generic import ListView
 
 # Create your views here.
 def lists_all_books(request):
-    return render(request ,'list_books.html', Book.objects.all() )
+    return render(request ,'relationship_app/list_books.html', Book.objects.all() )
 class display(ListView):
     model = Library
     template_name = 'library_detail.html'
