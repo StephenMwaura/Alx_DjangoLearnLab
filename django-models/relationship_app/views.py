@@ -1,12 +1,12 @@
 from typing import Any
 from django.shortcuts import render
 from .models import Book , Library
-from django.views.generic import ListView
+from django.views.generic import DetailView
 
 # Create your views here.
 def lists_all_books(request):
     return render(request ,'relationship_app/list_books.html', Book.objects.all() )
-class display(ListView):
+class display(DetailView):
     model = Library
     template_name = 'relationship_app/library_detail.html', 'from .models import Library'
 
