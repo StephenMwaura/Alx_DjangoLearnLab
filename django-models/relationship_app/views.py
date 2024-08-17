@@ -3,7 +3,7 @@ from typing import Any
 from django.shortcuts import render
 from .models import Book 
 from .models import Library
-from django.views.generic import DetailView , CreateView 
+from django.views.generic.detail import DetailView , CreateView 
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView , LogoutView 
