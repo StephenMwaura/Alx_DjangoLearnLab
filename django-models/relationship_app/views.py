@@ -1,4 +1,4 @@
-from  django.contrib.auth.decorators import permission_required 
+from django.contrib.auth.decorators import permission_required 
 from django.contrib.auth import login
 
 from typing import Any
