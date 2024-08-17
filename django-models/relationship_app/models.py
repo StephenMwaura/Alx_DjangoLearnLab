@@ -15,6 +15,12 @@ class Book(models.Model):
     
     def __str__(self) -> str:
         return self.title , self.author
+    class Meta():
+        permissions = [
+            ('can_add_book'),
+            ('can_change_book,'),
+            ('can_delete_book'),
+        ]
     
     
 class Library(models.Model):
