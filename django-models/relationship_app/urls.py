@@ -3,7 +3,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .views import list_books 
 from .views import LibraryDetailView
 from .import views
-from .admin_view import admin_view
+from .admin_view import Admin_view
 from .librarian_view import librarian_view
 from .member_view import member_view
 urlpatterns = [
@@ -13,7 +13,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
 
     path('register/', views.register.as_view(), name='register'),
-    path('admin/', admin_view, name='admin_view'),
+    path('admin/', Admin_view, name='admin_view'),
     path('librarian/', librarian_view, name='librarian_view'),
     path('member/', member_view, name='member_view'),
 ]
