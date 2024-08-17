@@ -11,7 +11,7 @@ from django.contrib.auth.views import LoginView , LogoutView
 
 from django.urls import path
 # Create your views here.
-def lists_books(request):
+def list_books(request):
     books = Book.objects.all()
     context = {'lists_all_books':books}
     return render(request ,'relationship_app/list_books.html', context )
