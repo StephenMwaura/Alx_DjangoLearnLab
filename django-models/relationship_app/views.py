@@ -10,6 +10,9 @@ from django.contrib.auth.views import LoginView , LogoutView
 from .templates.relationship_app import Admin_view
 from .templates.relationship_app import librarian_view
 from .templates.relationship_app import member_view
+from  django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render
+
 
 
 from django.urls import path
@@ -38,6 +41,36 @@ class  register(CreateView):
         user = form.save()
         login(self.request, user)
         return super().form_valid(form)
+
+
+def is_Member(user):
+    return user.is_authenticated and user.groups.filter(name='Member').exists()
+@user_passes_test(is_Member)
+def member_view(request):
+    return render("request , 'relationship_app/member_view.html")
+
+def is_Admin(user):
+    return user.is_authenticated and user.groups.filter(name='Admin').exists()
+@user_passes_test(is_Admin)
+def Admin_view(request):
+    return render("request , 'relationship_app/admin_view.html")
+
+
+def is_Libranian(user):
+    return user.is_authenticated and user.groups.filter(name='Libranian').exists()
+@user_passes_test(is_Libranian)
+def Librarian_view(request):
+    return render("request , 'relationship_app/librarian_view.html")
+
+
+
+def is_Member(user):
+    return user.is_authenticated and user.groups.filter(name='Member').exists()
+@user_passes_test(is_Member)
+def member_view(request):
+    return render("request , 'relationship_app/member_view.html")
+
+
 
 urlpatterns = [
     path('login/', LoginView.as_view(template_name = 'login.html'), name='login'),
