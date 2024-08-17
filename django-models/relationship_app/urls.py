@@ -3,9 +3,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .views import list_books 
 from .views import LibraryDetailView
 from .import views
-from .admin_view import Admin_view
-from .librarian_view import librarian_view
-from .member_view import member_view
+from .templates.relationship_app import Admin_view
+from .templates.relationship_app import librarian_view
+from .templates.relationship_app import member_view
+
 urlpatterns = [
     path("books/", list_books,name='list_books'),
     path("library/<int:pk>/", LibraryDetailView.as_view(), name='library_list'),
