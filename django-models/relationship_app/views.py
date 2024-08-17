@@ -1,4 +1,6 @@
+from  django.contrib.auth.decorators import permission_required 
 from django.contrib.auth import login
+
 from typing import Any
 from django.shortcuts import render
 from .models import Book 
@@ -11,7 +13,7 @@ from django.contrib.auth.views import LoginView , LogoutView
 from .templates.relationship_app import Admin_view
 from .templates.relationship_app import librarian_view
 from .templates.relationship_app import member_view
-from  django.contrib.auth.decorators import user_passes_test , permission_required
+from  django.contrib.auth.decorators import user_passes_test , permission_required 
 from django.shortcuts import render, get_object_or_404,redirect
 
 
@@ -77,7 +79,7 @@ def add_book(request):
             return redirect('list_books')
         
 
-@permission_required('relationship_app.can_edit_book')
+@permission_required('relationship_app.can_change_book')
 def edit_book(request , pk):
     book = get_object_or_404(Book , pk=pk)
     if request.method == 'POST':
