@@ -4,7 +4,9 @@ from .models import Book , Library
 from django.views.generic.detail import DetailView , CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView , LogoutView
+from django.contrib.auth.views import LoginView , LogoutView 
+from django.contrib.auth import login
+
 from django.urls import path
 # Create your views here.
 def lists_books(request):
