@@ -23,7 +23,7 @@ class CustomUser(AbstractUser):
 
     
 
-class UserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
     def create_user(self,username,  date_of_birth , profile_photo, password=None):
         if not username:
             raise ValueError("The Username field must be set")
