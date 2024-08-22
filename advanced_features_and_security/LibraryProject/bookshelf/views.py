@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
-from django.http import HttpResonse
+from django.http import HttpResponse
 # Create your views here.
 from .models import Book
 book1 = Book.objects.create(title = "Inheritance", author = "Kasoo", publication_year = 2010)
 @permission_required('bookshelf.can_create', raise_exception=True) # permission required to edit the model instance
 def edit_view(request): # function to edit the view
-    return HttpResonse ("Edit view accessed")
+    return HttpResponse ("Edit view accessed")
+def list_books(request):
+    books = Book.objects.all()
+    context = {'lists_all_books':books}
+    return render(request ,'relationship_app/list_books.html', context )
 
