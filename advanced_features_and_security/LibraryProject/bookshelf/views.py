@@ -7,8 +7,8 @@ book1 = Book.objects.create(title = "Inheritance", author = "Kasoo", publication
 @permission_required('bookshelf.can_create', raise_exception=True) # permission required to edit the model instance
 def edit_view(request): # function to edit the view
     return HttpResponse ("Edit view accessed")
-def list_books(request):
+def book_list(request):
     books = Book.objects.all()
     context = {'lists_all_books':books}
-    return render(request ,'relationship_app/list_books.html', context )
+    return render(request ,'bookshelf/book_list.html', context )
 
