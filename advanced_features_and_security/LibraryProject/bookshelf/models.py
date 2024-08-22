@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser , BaseUserManager
 
+from django.apps import AppConfig
 # Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -46,3 +47,33 @@ class CustomUserManager(BaseUserManager):
         user.is_superuser = True
         user.save(using= self._db)
         return user
+
+class Model(models.Model):
+    class Meta:[ # creating the meta class
+        ("can_view", "can view"), # creating permisions
+        ("can_create", "can create"), # creating permissions
+        ("can_edit", "can edit"), # creating permissions
+        ("can_delete", "can delete "), # creating permissions
+    ]
+from django.contrib.auth.models import Group , Permission
+from django.contrib.auth.models import User
+class BookshelfConfig(AppConfig):
+    name = 'bookshelf'
+    def ready(self):
+        
+        from django.contrib.auth.models import Group , Permission
+        from django.contrib.auth.models import User
+        
+        editors_group , created = Group.objects.get_or_create(name = "Editors") # creating groups
+        viewers_group , created = Group.objects.get_or_create(name = "Viewers")# creating groups
+        admins_group , created = Group.objects.get_or_create(name = "Admins") # creating groups
+
+
+        edit_permission = Permission.objects.get(codename = 'can_edit')
+        create_permission = Permission.objects.get(codename = 'can_create')
+
+        editors_group.permissions.add([edit_permission , create_permission]) # assigning appropriate permissions to each group.
+
+        user = User.objects.get(username='xteve') # creating test users
+         
+        editors_group.user_set.add('xteve')# assigning a user to a group
