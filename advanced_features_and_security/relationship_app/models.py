@@ -1,10 +1,8 @@
-from django.db import models 
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-
-
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
-from django.contrib.auth.models import AbstractUser , BaseUserManager
 # Create your models here.
 class Author(models.Model):
     name = models.CharField(max_length=100)
@@ -13,15 +11,15 @@ class Author(models.Model):
         return self.name
 class Book(models.Model):
     title = models.CharField(max_length=100)
-    author = models.ManyToManyField(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     
     def __str__(self) -> str:
         return self.title , self.author
     class Meta():
         permissions = [
-            ('can_add_book', "can add book"),
-            ('can_change_book'," can change book"),
-            ('can_delete_book', "can delete book"),
+            ('can_add_book'),
+            ('can_change_book,'),
+            ('can_delete_book'),
         ]
     
     
@@ -37,9 +35,9 @@ class Librarian(models.Model):
         return {self.name} , {self.library}
 
 class UserProfile(models.Model):
-    # user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.Cascade)
     role_choices = [
-        ('Admin', 'Admin'),
+         ('Admin', 'Admin'),
         ('Librarian', 'Librarian'),
         ('Member', 'Member'),
 
@@ -52,12 +50,12 @@ def user_profile(sender, instance, created, **kwargs):
     else:
         instance.userprofile.save()
 
-# # from  django.contrib.auth.decorators import user_passes_test
-# # from django.http import HttpResponse
+# from  django.contrib.auth.decorators import user_passes_test
+# from django.http import HttpResponse
 
-# # def is_Admin(user):
-# #     return user.is_authenticated and user.groups.filter(name='Admin').exists()
-# # @user_passes_test(is_Admin)
-# # def Admin_view(request):
-# #     return HttpResponse("Welcome, Admin")
+# def is_Admin(user):
+#     return user.is_authenticated and user.groups.filter(name='Admin').exists()
+# @user_passes_test(is_Admin)
+# def Admin_view(request):
+#     return HttpResponse("Welcome, Admin")
 
