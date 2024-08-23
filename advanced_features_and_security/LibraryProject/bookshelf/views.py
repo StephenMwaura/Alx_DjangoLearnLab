@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
+from .forms import ExampleForm
 # Create your views here.
 from .models import Book
 book1 = Book.objects.create(title = "Inheritance", author = "Kasoo", publication_year = 2010)
@@ -12,3 +13,5 @@ def book_list(request):
     context = {'lists_all_books':books}
     return render(request ,'bookshelf/book_list.html', context )
 
+def example(request):
+ return render(request ,'form_example.html')
