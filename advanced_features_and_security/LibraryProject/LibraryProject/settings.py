@@ -129,8 +129,13 @@ LOGOUT_REDIRECT_URL = "profile"
 
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
-SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'Deny'
-SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True #prevent cross site scripting attacks
+X_FRAME_OPTIONS = 'Deny' # prevent site from being iframed
+SECURE_CONTENT_TYPE_NOSNIFF = True # prevent browsers from sniffing a response
 CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True# session cookies are only transmitted in https
+CSRF_COOKIE_SECURE = True # csrf cookies are only transmitted in https
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
