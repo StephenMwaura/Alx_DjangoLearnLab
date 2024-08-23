@@ -1,1 +1,1 @@
-"Example form"
+"ExampleForm"
