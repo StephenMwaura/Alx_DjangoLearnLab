@@ -13,7 +13,7 @@ class BookSerializer(serializers.ModelSerializer): # converts complex data into 
 
 class AuthorSerializer(serializers.ModelSerializer):
     # this instance will include all books related to the author
-    books = BookSerializer(many = True, read_only = True) # nested serializer of the BookSerializer due to presence of foreign key.
+    books = BookSerializer(many=True, read_only=True) # nested serializer of the BookSerializer due to presence of foreign key.
     class Meta:
         model = Author
         fields = [
