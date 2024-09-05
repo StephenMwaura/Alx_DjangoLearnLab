@@ -2,7 +2,7 @@ from rest_framework import serializers
 from datetime import datetime
 from .models import Book
 from .models import Author
-class BookSerializer(serializers.ModelSerializer): # converts complex data into json or deserilizers. The modelserilizer allow the crud operations.
+class BookSerializer(serializers.ModelSerializer): # converts complex data into json or deserializers. The modelserializer allow the crud operations.
     class Meta: # must be defined 
         model = Book
         fields = '__all__' # all fields of the Book model are shown
@@ -19,3 +19,8 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = [
             'name','books'
         ]
+
+    def validate(self , data): # checks if the published_year of the Book model is not in the future.
+     if data['published_year'] > datetime.now().year:
+            raise serializers.ValidationError("Published year cannot be in the future.")
+     return data
