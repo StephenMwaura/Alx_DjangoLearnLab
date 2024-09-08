@@ -7,7 +7,7 @@ class BookSerializer(serializers.ModelSerializer): # converts complex data into 
         model = Book
         fields = '__all__' # all fields of the Book model are shown
     def validate(self , data): # checks if the published_year of the Book model is not in the future.
-        if data['published_year'] > datetime.now().year:
+        if data['publication_year'] > datetime.now().year:
             raise serializers.ValidationError("Published year cannot be in the future.")
         return data
 
@@ -21,6 +21,6 @@ class AuthorSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self , data): # checks if the published_year of the Book model is not in the future.
-     if data['published_year'] > datetime.now().year:
+     if data['publication_year'] > datetime.now().year:
             raise serializers.ValidationError("Published year cannot be in the future.")
      return data
