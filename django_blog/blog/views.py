@@ -21,16 +21,17 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'blog/signup.html'
-    def form_valid(request):
 
-     if request == "POST":
-        form = UserCreationForm()
-        if form.is_valid():
-            form.save()   
-            return (request, 'Account created successfully')   
-        else:
-            form = UserCreationForm() 
-            context = {'form':form} 
-            return render(request,'register.html' , context)
+    # def form_valid(request):
+
+    #  if request == "POST":
+    #     form = UserCreationForm()
+    #     if form.is_valid():
+    #         form.save()   
+    #         return (request, 'Account created successfully')   
+    #     else:
+    #         form = UserCreationForm() 
+    #         context = {'form':form} 
+    #         return render(request,'register.html' , context)
 
 
