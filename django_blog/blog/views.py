@@ -5,7 +5,7 @@ from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
-
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 def home_view(request):
@@ -20,6 +20,15 @@ class SignUpView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'blog/signup.html'
 
-   
+def register(request):
+    if request == "POST":
+        form = UserCreationForm()
+        if form.is_valid():
+            form.save()   
+            return (request, 'Account created successfully')   
+        else:
+            form = UserCreationForm() 
+            context = {'form':form} 
+            return render(request,'register.html' , context)
 
 
