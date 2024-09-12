@@ -6,14 +6,22 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.forms import UserCreationForm
+from .forms import  Profile_form
 
 # Create your views here.
 def home_view(request):
     return render(request, 'blog/home.html')
 @login_required
 def profile_view(request):
-    user = request.user
-    return render(request , 'blog/profile.html', {'user':user})
+    if request.method == "POST":
+        form = Profile_form(request.POST , request.Files, instance=request)
+        if form.is_valid():
+         form.save()
+         return render('profile')
+    else:
+       form = Profile_form(instance=request.user)
+
+    return render(request , 'blog/profile.html', {'form':form})
     
 
 
