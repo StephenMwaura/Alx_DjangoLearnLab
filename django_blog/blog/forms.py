@@ -1,13 +1,15 @@
 from django import forms
-# from django.contrib.auth.forms import UserCreationForm
-# from django.core.exceptions import ValidationError
-# from django.forms import Form
+from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUser
 
-# class CustomUserCreationForm(UserCreationForm):
-from .models import CustomUser
-from .models import CustomUser
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    
+    class Meta:
+        model = CustomUser
+        fields = [ 'username', 'email', 'bio', 'photo']
 
 class Profile_form(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = [ 'username', 'email', 'photo', 'bio']
+        fields = ['username', 'email' , 'bio' , 'photo']

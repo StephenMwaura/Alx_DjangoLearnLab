@@ -6,13 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    {% if user.is_authenticated %}You are logged in as {{user}}
-    <form action="{% url 'logout' %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">Log Out</button>
-    </form>
-{% else %} You are not logged in.
-<a href="{% url 'login' %}">Click here to login.</a>    
-{% endif %}
+    {% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Update</button>
+</form>
+{% endblock %}
 </body>
 </html>

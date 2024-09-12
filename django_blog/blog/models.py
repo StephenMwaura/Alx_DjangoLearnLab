@@ -12,9 +12,9 @@ class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
 
 
-class CustomUserManager(BaseUserManager):
-    def create_user(self , username, bio , photo, password):
-        if not username:
+class CustomUserManager(BaseUserManager): # custom user manager inherits from the BaseUser
+    def create_user(self , username, bio , photo, password=None):
+        if not username: 
             raise ValueError("The username is required")
         user = self.model(
             username = username,
@@ -25,19 +25,20 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
-    def create_superuser(self, username, bio, photo, password):
+    def create_superuser(self, username, bio, photo, password=None):
         user = self.create_user(username,bio,photo,password)
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
         return user
 
-class CustomUser(AbstractUser):
+class CustomUser(AbstractUser): # inherits from the abstract user
     bio = models.TextField(max_length=200)
     photo = models.ImageField(blank=True, null=True)
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["bio", "photo"]
+
     objects = CustomUserManager()
 
     def __str__(self):
