@@ -12,16 +12,18 @@ def home_view(request):
     return render(request, 'blog/home.html')
 @login_required
 def profile_view(request):
-    return render(request, 'blog/profile.html')
+    user = request.user
+    return render(request , 'blog/profile.html', {'user':user})
+    
 
 
 class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'blog/signup.html'
+    def form_valid(request):
 
-def register(request):
-    if request == "POST":
+     if request == "POST":
         form = UserCreationForm()
         if form.is_valid():
             form.save()   

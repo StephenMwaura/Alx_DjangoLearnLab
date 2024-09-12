@@ -38,7 +38,7 @@ class CustomUser(AbstractUser):
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["bio", "photo"]
-    objects = 'CustomUserManager'
+    objects = CustomUserManager()
 
     def __str__(self):
         return self.username
