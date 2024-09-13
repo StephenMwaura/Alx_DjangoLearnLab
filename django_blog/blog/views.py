@@ -48,17 +48,17 @@ class SignUpView(CreateView):
 
 class PostListView(ListView):
    model = Post 
-   template_name = 'posts.html'
+   template_name = 'post_list.html'
    context_object_name = 'posts'
 
 class PostDetailView(DetailView):
    model = Post
-   template_name = 'blog/details.html'
+   template_name = 'blog/post.detail.html'
 
 class PostCreateView(LoginRequiredMixin,CreateView):
    model = Post
    fields = ['title' , 'content']
-   template_name = 'blog/create.html'
+   template_name = 'blog/post.create.html'
    success_url = reverse_lazy('posts')
 
    
@@ -69,7 +69,7 @@ class PostCreateView(LoginRequiredMixin,CreateView):
 class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView): # A class based view for updating a specific book.
    model = Post
    fields = ['title' , 'content'] # specifies the fields to be edited.
-   template_name = 'blog/update.html'
+   template_name = 'blog/post.update.html'
    success_url = reverse_lazy('posts') # url to redirect after a succesful update
 
    
@@ -79,7 +79,7 @@ class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView): # A cla
   
 class PostDeleteView(DeleteView):
    model = Post
-   template_name = 'blog/delete.html'
+   template_name = 'blog/post.delete.html'
 
    def test_func(self):
       post = self.get_object()
