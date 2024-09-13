@@ -8,7 +8,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.forms import UserCreationForm
 from .forms import  Profile_form
 from django.views import View
-
+from .forms import CustomUserCreationForm
 # Create your views here.
 def home_view(request):
     return render(request, 'blog/home.html')
@@ -38,8 +38,8 @@ def profile_view(request):
 
 
 class SignUpView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('blog:login')
     template_name = 'blog/signup.html'
 
 

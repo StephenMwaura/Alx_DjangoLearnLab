@@ -35,6 +35,7 @@ class CustomUserManager(BaseUserManager): # custom user manager inherits from th
 class CustomUser(AbstractUser): # inherits from the abstract user
     bio = models.TextField(max_length=200)
     photo = models.ImageField(blank=True, null=True)
+   
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["bio", "photo"]
