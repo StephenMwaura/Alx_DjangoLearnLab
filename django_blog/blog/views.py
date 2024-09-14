@@ -13,6 +13,8 @@ from .forms import CustomUserCreationForm
 from django.views.generic import ListView, CreateView,DetailView,UpdateView,DeleteView
 from .models import Post , Comment
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
+from django.db.models import Q
+from taggit.models import Tag
 # Create your views here.
 def home_view(request): #functional based views
     return render(request, 'blog/home.html') #render used to render html templates
@@ -102,7 +104,6 @@ class CommentCreateView(CreateView, LoginRequiredMixin):
    model = Comment
    form_class =CommentForm
    template_name = 'blog/comment_create.html'
-   context_object_name = 'comments'
    success_url = reverse_lazy('posts')
 
    def form_valid(self , form):
@@ -132,3 +133,20 @@ class CommentDeleteView(DeleteView, UserPassesTestMixin): # userpasses testmixin
       return self.request.user == comment.author
  
          
+def view_search(request):
+   query = request.Get.get('q')
+   if query:
+      posts = Post.objects.filter(
+         Q(title__icontains=query),
+         Q(content__icontains= query),
+         Q(tags__name__icontains=query)
+
+      ).disntict()
+   else:
+      posts = Post.objects.none()
+   return render(request, 'blog/results.html', {'posts':posts, 'query':query})
+
+def tag_view(request, tag_name):
+   tag = Tag.objects.get(name=tag_name)
+   posts = Post.objects.filter(tags=tag)
+   return render(request , 'blog/posts_tag.html', {'posts':posts, 'tag': tag_name})

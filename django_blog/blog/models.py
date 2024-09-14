@@ -1,6 +1,6 @@
 
 from django.db import models
-
+from taggit.managers import TaggableManager
 from django.contrib.auth.models import  AbstractUser , BaseUserManager
 from django.conf import settings
 from django.db import models
@@ -10,7 +10,7 @@ class Post(models.Model):
     content = models.TextField(max_length=200)
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
-
+    tags = TaggableManager()# enables tagging
 
 class CustomUserManager(BaseUserManager): # custom user manager inherits from the BaseUser
     def create_user(self , username, bio , photo, password=None):
@@ -52,3 +52,8 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
+class Tag(models.Model):
+    name = models.CharField(max_length=30)
+    post = models.ManyToManyField(Post, related_name='posts')
+    def __str__(self) -> str:
+        return self.name

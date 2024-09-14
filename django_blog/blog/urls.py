@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignUpView , CommentListView, CommentCreateView, CommentDeleteView, CommentUpdateView
+from .views import SignUpView , CommentListView, CommentCreateView, CommentDeleteView, CommentUpdateView , view_search , tag_view
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import LoginView , LogoutView
 from django.contrib.auth import views as  auth_views
@@ -16,9 +16,10 @@ urlpatterns = [
     path ('post/new/', views.PostCreateView.as_view(), name='Create'),
     path('post/<int:pk>/update/', views.PostUpdateView.as_view() ,  name="update"),
     path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='delete'),
-    path('post/<int:pk>/comments/new/',CommentCreateView.as_view(), name="comment_create"),
+    path('post/<int:post_id>/comments/new/',CommentCreateView.as_view(), name="comment_create"),
     path('comment/<int:pk>/delete/',CommentDeleteView.as_view(), name='comment-_delete'),
     path('comment/<int:pk>/update/',CommentUpdateView.as_view(), name = 'comment_update'),
     path('post/<int:post_id>/comments/',CommentListView.as_view(), name='comment_list'),
-
+    path('search/', view_search , name='search'),
+    path('tags/<slug:tag_name>/',tag_view, name='posts_tag'),
 ] 

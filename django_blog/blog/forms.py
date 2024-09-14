@@ -2,7 +2,7 @@ from typing import Any
 from django import forms
 from django.contrib.auth.forms import UserCreationForm 
 from .models import CustomUser , Post , Comment
-
+from taggit.forms import TagWidget
 class CustomUserCreationForm(UserCreationForm): # an extension of djangos built in creation form
     email = forms.EmailField(required=True)
     
@@ -35,3 +35,9 @@ class CommentForm(forms.ModelForm):
         model = Comment
         
         fields = ['content' ]
+
+class PostForm(forms.ModelForm):
+    tags = forms.CharField(required=False , widget=TagWidget())
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']

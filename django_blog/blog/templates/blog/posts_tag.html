@@ -6,14 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-   
     <ul>
-        {%for post in posts%}
-        <a href="{% url 'posts_by_tag' tag.name}">{{ tag.name }}</a>
-        <li>{{post.title}} , {{post.content}} by {{post.author}}</li>
-        {% endfor %}
+        {% for post in posts %}
+         <li><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></li>
+         
     </ul>
-    
     
 </body>
 </html>

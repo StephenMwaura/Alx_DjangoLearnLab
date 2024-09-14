@@ -6,14 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-   
+    <h1>Results is {{ query }}</h1>
     <ul>
-        {%for post in posts%}
-        <a href="{% url 'posts_by_tag' tag.name}">{{ tag.name }}</a>
-        <li>{{post.title}} , {{post.content}} by {{post.author}}</li>
+        {%for post in posts %}
+        <li><a href="{% url 'post_detail' {post.id}}"></a></li>
+        {% empty %}
+        <li>There is no such results.</li>
         {% endfor %}
     </ul>
-    
-    
 </body>
 </html>
