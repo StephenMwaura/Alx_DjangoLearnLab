@@ -146,7 +146,19 @@ def view_search(request):
       posts = Post.objects.none()
    return render(request, 'blog/results.html', {'posts':posts, 'query':query})
 
-def PostByTagListView(request, tag_name):
-   tag = Tag.objects.get(name=tag_name)
-   posts = Post.objects.filter(tags=tag)
-   return render(request , 'blog/posts_tag.html', {'posts':posts, 'tag': tag_name})
+class PostByTagListView(ListView):
+   model = Post
+   template_name = 'blog/posts_tag.html'
+   context_object_name = 'posts'
+
+   def get_queryset(self):
+      tag_slug = self.kwargs['tag_slug']
+      tag = Tag.objects.get(slug=tag_slug)
+      return Post.objects.filter(tags=tag)
+   
+   def get_context_data(self, **kwargs):
+      context = super().get_context_date(**kwargs)
+      context['tag'] = Tag.objects.get(slug=self.kwargs['tag_slug'])
+      return context
+
+  
