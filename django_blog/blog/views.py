@@ -133,32 +133,35 @@ class CommentDeleteView(DeleteView, UserPassesTestMixin): # userpasses testmixin
       return self.request.user == comment.author
  
          
-def view_search(request):
-   query = request.Get.get('q')
+def view_search(request): # the q is used for complex queries
+   query = request.GET.get('q')
    if query:
       posts = Post.objects.filter(
-         Q(title__icontains=query),
-         Q(content__icontains= query),
-         Q(tags__name__icontains=query)
+         Q(title__icontains=query), # filters posts where the queries is  found in the title
+         Q(content__icontains= query), # filters posts where the queries is found in the content the icontains is used to deal with case sensitive
+         Q(tags__name__icontains=query) # filters posts where the tag name contains the search query
 
-      ).disntict()
+      ).disntict() # enures the results returned are unique
    else:
-      posts = Post.objects.none()
+      posts = Post.objects.none() # if no query is provided the search returns an empty result set
    return render(request, 'blog/results.html', {'posts':posts, 'query':query})
 
-class PostByTagListView(ListView):
+class PostByTagListView(ListView): # used to list posts based on a tag
    model = Post
    template_name = 'blog/posts_tag.html'
    context_object_name = 'posts'
 
    def get_queryset(self):
-      tag_slug = self.kwargs['tag_slug']
-      tag = Tag.objects.get(slug=tag_slug)
-      return Post.objects.filter(tags=tag)
+      tag_slug = self.kwargs['tag_slug'] # retrieves the tag_slug from the url parameter
+      tag = Tag.objects.get(slug=tag_slug) # uses the slug to retrieve the corresponding Tag from the database
+      return Post.objects.filter(tags=tag) # filters posts that are associated with the retrieved tag
    
    def get_context_data(self, **kwargs):
       context = super().get_context_date(**kwargs)
       context['tag'] = Tag.objects.get(slug=self.kwargs['tag_slug'])
       return context
-
+class TagListView(ListView):
+   model = Tag
+   template_name = 'blog/tag_list.html'
+   context_object_name = 'tags'
   
