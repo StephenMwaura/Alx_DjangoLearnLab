@@ -5,11 +5,9 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     bio = models.TextField(max_length=100)
     profile_picture = models.ImageField(upload_to='profile_pictures/',blank=True , null=True)
-    followers = models.ManyToManyField('self' , symmetrical=False)
+    followers = models.ManyToManyField('self' , symmetrical=False,  related_name = 'following')
 
 
     def __str__(self):
         return self.username
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = [ 'bio' , 'profile_picture' , 'followers']
+    
