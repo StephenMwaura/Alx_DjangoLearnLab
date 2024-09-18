@@ -8,13 +8,13 @@ from rest_framework.routers import DefaultRouter
 #     path('posts/' , include(router.urls))
 # ]
 urlpatterns = [
-    path('postcreate/', PostCreateApiView.as_view(), name='create-post'),
-    path('postlist/',PostListView.as_view(), name='post_list'),
-    path('postupdate/',PostUpdateView.as_view(), name='post_update'),
-    path('postdelete/', PostDeleteView.as_view(), name='delete-view'),
-    path('commentcreate/', CommentCreateView.as_view(), name='comment-create'),
-    path('commentlist/', CommentListView.as_view(), name='comment-list'),
-    path('commentupdate/', CommentUpdateView.as_view(), name='comment-update'),
-    path('commentdelete/', CommentDeleteView.as_view(), name='comment-delete'),
+    path('api/posts/create/', PostCreateApiView.as_view(), name='create-post'),
+    path('api/posts/',PostListView.as_view(), name='post_list'),
+    path('api/posts<int:pk>/update/',PostUpdateView.as_view(), name='post_update'),
+    path('api/posts<int:pk>/delete/', PostDeleteView.as_view(), name='delete-view'),
+    path('api/comments/create/', CommentCreateView.as_view(), name='comment-create'),
+    path('api/comments/', CommentListView.as_view(), name='comment-list'),
+    path('api/comments<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),
+    path('api/comments/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
 
 ]
