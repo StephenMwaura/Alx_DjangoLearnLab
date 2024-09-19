@@ -5,7 +5,7 @@ from django.views.generic import CreateView
 from .models import CustomUser
 from .serializers import RegisterSerializer ,  CustomUserSerializer
 from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate
+
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -16,7 +16,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     
     def post(self , request):
-            serializer = RegisterSerializer(data=request.data)
+            serializer =self.get_serializer(data=request.data)
             if serializer.is_valid():
                 user = serializer.save()
                 token , created = Token.objects.get_or_create(user=user)
@@ -36,8 +36,8 @@ class ProfileView(generics.RetrieveUpdateAPIView):
         return self.request.user
 
     def get(self ,request):
-        return f"Welcome you are an authenticated user."
-
+        serializer = self.get_serializer(self.get_object)
+        return Response(serializer.data ,status=status.HTTP_200_OK)
 class LoginView(ObtainAuthToken):
      def post(self,request, *args, **kwargs):
           response = super(LoginView, self).post(request, *args, **kwargs)
