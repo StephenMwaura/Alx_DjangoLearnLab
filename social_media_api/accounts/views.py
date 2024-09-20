@@ -43,3 +43,45 @@ class LoginView(ObtainAuthToken):
           response = super(LoginView, self).post(request, *args, **kwargs)
           token = Token.objects.get(key=response.data['token'])
           return Response({'token': token.key}, status=status.HTTP_200_OK)
+     
+class FollowView(APIView):
+     permission_classes = [IsAuthenticated]
+
+     def post(self, request, username):
+        try:
+            follow_user = CustomUser.objects.get(username=username)
+        except CustomUser.DoesNotExist:
+             return Response({'info':"User not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        if request.user == follow_user:
+             return Response({'info': 'You cannot follow yourself'} ,status=status.HTTP_400_BAD_REQUEST)
+        
+        if request.user in follow_user.followers.all():
+             return Response({"info":"You are already following this user"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        follow_user.followers.add(request.user)
+        return Response({"info":"You are now following {username}"}, status=status.HTTP_200_OK)
+     
+
+class UnfollowView(APIView):
+     permission_classes = [IsAuthenticated]
+
+     def post(user , request, username):
+          try:
+            follow_user = CustomUser.objects.get(username=username)
+          except CustomUser.DoesNotExist:
+               return Response({"info":"User not found."}, status=status.HTTP_404_NOT_FOUND)
+          
+          if request.user == follow_user:
+               return Response({"info:You cannot unfollow yourself"})
+          
+          if request.user not in follow_user.followers.all():
+               return Response({"info":"You are not following this {username}."}, status=status.HTTP_400_BAD_REQUEST)
+          follow_user.followers.remove(request.user)
+          return Response({"info":"You have unfollowed{username}."}, status=status.HTTP_200_OK)
+
+          
+
+        
+          
+     
