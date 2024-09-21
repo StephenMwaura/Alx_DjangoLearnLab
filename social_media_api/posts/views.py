@@ -58,7 +58,7 @@ class LikePostView(generics.GenericAPIView):
 
      def post(self, request, pk):
         # Use generics.get_object_or_404 to fetch the post or raise a 404
-        post = get_object_or_404(Post, pk=pk)  
+        post = generics.get_object_or_404(Post, pk=pk)  
         
         # Check if the user has already liked the post
         like, created = Like.objects.get_or_create(user=request.user, post=post)
