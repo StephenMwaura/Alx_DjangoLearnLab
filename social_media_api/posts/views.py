@@ -1,12 +1,16 @@
 
 from rest_framework import generics
-from .models import Post ,Comment
-from .serializers import PostSerializer,CommentSerializer
+from .models import Post ,Comment  ,Like
+from .serializers import PostSerializer,CommentSerializer ,LikeSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from .permissions import IsAuthorOrReadOnly
-from rest_framework import generics
+from rest_framework.views import APIView 
 from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework import status
+from notifications.models import Notification
+
 
 from rest_framework import viewsets
 # Create your views here.
@@ -45,3 +49,50 @@ class FeedView(generics.ListAPIView): # lists all the posts of the people the us
         user = self.request.user
         following_users = user.following.all() # users that the current user follows
         return Post.objects.filter(author__in=following_users).order_by('-created_at')
+     
+
+class LikePostView(APIView):
+     permission_classes = [permissions.IsAuthenticated]
+
+
+     def post(self, request, post_id): #this gets the post and the user
+          try:
+               post = Post.objects.get(id=post_id)
+          except Post.DoesNotExist:
+               return Response({"info":"Post not found."}, status=status.HTTP_404_NOT_FOUND)
+          
+          user = request.user
+
+          if Like.objects.filter(post=post , user=user).exists(): # checks if the user has already liked this post
+               return Response({f"detail":"You have already liked this post."})
+          
+          Like.objects.create(post=post, user=user) # this creates the like implementation
+
+          if post.user != user:
+               Notification.objects.create(
+                    user=post.user,
+                    message=f"{user.username} liked your post."
+               )
+          return Response({"info":"Post liked successfully"}, status=status.HTTP_201_CREATED)
+     
+class UnLikePostView(APIView):
+     permission_classes = [permissions.IsAuthenticated]
+
+
+     def delete(self, request, post_id): #this gets the post and the user
+          try:
+               post = Post.objects.get(id=post_id)
+          except Post.DoesNotExist:
+               return Response({"info":"Post not found."}, status=status.HTTP_404_NOT_FOUND)
+          
+          user = request.user
+
+          try:
+               like = Like.objects.get(post=post , user=user)
+               like.delete()
+               return Response({"detail":" You have unliked the post."}) 
+          
+          except:
+               return Response({"info":"You have not liked this post."})
+          
+

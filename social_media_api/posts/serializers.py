@@ -1,4 +1,4 @@
-from .models import Comment ,Post
+from .models import Comment ,Post , Like
 from rest_framework import serializers
 
 
@@ -24,3 +24,10 @@ class CommentSerializer(serializers.ModelSerializer):
         user = request.user
         validated_data['author'] = user
         return Comment.objects.create( **validated_data)
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ['post', 'user']
+
+   
