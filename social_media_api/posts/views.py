@@ -10,6 +10,7 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 from notifications.models import Notification
+from django.shortcuts import get_object_or_404
 
 
 from rest_framework import viewsets
@@ -51,32 +52,35 @@ class FeedView(generics.ListAPIView): # lists all the posts of the people the us
         return Post.objects.filter(author__in=following_users).order_by('-created_at')
      
 
-class LikePostView(APIView):
+class LikePostView(generics.GenericAPIView):
      permission_classes = [permissions.IsAuthenticated]
 
 
-     def post(self, request, post_id): #this gets the post and the user
-          try:
-               post = Post.objects.get(id=post_id)
-          except Post.DoesNotExist:
-               return Response({"info":"Post not found."}, status=status.HTTP_404_NOT_FOUND)
-          
-          user = request.user
 
-          if Like.objects.filter(post=post , user=user).exists(): # checks if the user has already liked this post
-               return Response({f"detail":"You have already liked this post."})
-          
-          Like.objects.create(post=post, user=user) # this creates the like implementation
-
-          if post.user != user:
-               Notification.objects.create(
-                    user=post.user,
-                    message=f"{user.username} liked your post."
-               )
-          return Response({"info":"Post liked successfully"}, status=status.HTTP_201_CREATED)
-     
 class UnLikePostView(APIView):
      permission_classes = [permissions.IsAuthenticated]
+
+     def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)  # Fetch the post object
+        
+        # Check if the post is already liked by the user
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+
+        if not created:
+            # If like already exists, unlike the post by deleting the like
+            like.delete()
+            message = 'Post unliked'
+        else:
+            # If the like is newly created, trigger the notification for liking the post
+            Notification.objects.create(
+                actor=request.user,
+                recipient=post.author,  # Assuming post has an 'author' field
+                verb='liked',
+                target=post
+            )
+            message = 'Post liked'
+
+        return Response({'message': message}, status=status.HTTP_200_OK)
 
 
      def delete(self, request, post_id): #this gets the post and the user
