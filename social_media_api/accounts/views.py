@@ -36,6 +36,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user
 
+
     def get(self ,request):
         serializer = self.get_serializer(self.get_object)
         return Response(serializer.data ,status=status.HTTP_200_OK)

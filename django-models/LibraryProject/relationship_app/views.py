@@ -9,8 +9,8 @@ from django.contrib.auth import login
 
 from django.urls import path
 # Create your views here.
-def lists_books(request):
-    books = Book.objects.all()
+def lists_books(request): # this is a function based view
+    books = Book.objects.all() # retrieves all the books
     context = {'lists_all_books':books}
     return render(request ,'list_books.html', context )
 class LibraryDetailView(DetailView):
@@ -24,9 +24,9 @@ class LibraryDetailView(DetailView):
      return context
 
 
-class SignUpView(CreateView):
+class SignUpView(CreateView): #inherits from the django inbuilt createview form
     form_class = UserCreationForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('login') # after a successful application the user is redirected to the next page which is 'login'
     template_name = 'register.html'
 
     def form_valid(self, form):
@@ -34,11 +34,7 @@ class SignUpView(CreateView):
         login(self.request, user)
         return super().form_valid(form)
 
-urlpatterns = [
-    path('login/', LoginView.as_view(template_name = 'login.html'), name='login'),
-    path('logout/',LogoutView.as_view(), name = 'logout'),
-    path('register/', SignUpView.as_view(), name='register'),
-]
+
 
 
 

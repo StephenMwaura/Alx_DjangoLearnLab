@@ -9,8 +9,8 @@ book1 = Book.objects.create(title = "Inheritance", author = "Kasoo", publication
 def edit_view(request): # function to edit the view
     return HttpResponse ("Edit view accessed")
 def book_list(request):
-    books = Book.objects.all()
-    context = {'lists_all_books':books}
+    books = Book.objects.all() # retrieves all books
+    context = {'lists_all_books':books} # creates a dictionary
     return render(request ,'bookshelf/book_list.html', context )
 
 def example(request):
